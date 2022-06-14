@@ -23,12 +23,12 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         $category = new Category();
         $category->name = $request->get('name');
-        $category->description = $request->get('description');
-        // if ($request->hasFile('thumbnail')) {
-        //     $path = Utility::file_upload($request, 'thumbnail', 'categories');
+        $category->priority = $request->get('priority');
+         if ($request->hasFile('thumbnail')) {
+             $path = Utility::file_upload($request, 'thumbnail', 'categories');
 
-        //     $category->thumbnail = $path;
-        // }
+             $category->thumbnail = $path;
+         }
 
         if ($category->save()) {
             return $category;
@@ -52,18 +52,18 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         $category = Category::where("slug",$slug)->first();
         $category->name = $request->get('name');
-        $category->description = $request->get('description');
-        // if ($request->hasFile('thumbnail')) {
-        //     $old_image = $category->thumbnail;
-        //     $path = Utility::file_upload($request, 'thumbnail', 'categories');
+        $category->priority = $request->get('priority');
+         if ($request->hasFile('thumbnail')) {
+             $old_image = $category->thumbnail;
+             $path = Utility::file_upload($request, 'thumbnail', 'categories');
 
-        //     if ($path) {
-        //         $category->thumbnail = $path;
-        //        if ($old_image) {
-        //            unlink($old_image);
-        //        }
-        //     }
-        // }
+             if ($path) {
+                 $category->thumbnail = $path;
+                if ($old_image) {
+                    unlink($old_image);
+                }
+             }
+         }
 
         if ($category->save()) {
             return $category;

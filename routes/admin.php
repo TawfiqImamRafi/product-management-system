@@ -37,11 +37,15 @@ Route::group([
     Route::post('/change-password', [\App\Http\Controllers\Auth\Admin\AuthController::class, 'updatePassword'])->name('admin.update.password');
     Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
+Route::group([
+    'middleware' => 'auth:admin'
+], function() {
     Route::group(['prefix' => 'category'], function ($router) {
         $router->get('/list', [CategoryController::class, 'index'])->name('category.list');
         $router->get('/create', [CategoryController::class, 'create'])->name('category.create');
-        $router->post('/create', [CategoryController::class, 'store'])->name('category.store');
+        $router->post('/store', [CategoryController::class, 'store'])->name('category.store');
         $router->get('/edit/{slug}', [CategoryController::class, 'edit'])->name('category.edit');
         $router->put('/edit/{slug}', [CategoryController::class, 'update'])->name('category.update');
         $router->delete('/destroy/{slug}', [CategoryController::class, 'destroy'])->name('category.destroy');

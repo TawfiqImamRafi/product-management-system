@@ -111,21 +111,6 @@ if (!function_exists('pagination_links')) {
     }
 }
 
-if (!function_exists('getRoleType')) {
-    function getRoleType()
-    {
-        $roles = [
-            'admin' => 'Admin',
-            'marketing_executive' => 'Marketing executive',
-            'marketing_manager' => 'Marketing manager',
-            'sales_manager' => 'Sales manager',
-            'sales_representative' => 'Sales representative',
-            'data_analyst' => 'Data analyst',
-        ];
-
-        return $roles;
-    }
-}
 if (!function_exists('getPriority')) {
     function getPriority()
     {
@@ -135,44 +120,14 @@ if (!function_exists('getPriority')) {
             '3' => '3',
             '4' => '4',
             '5' => '5',
+            '6' => '6',
+            '7' => '7',
+            '8' => '8',
+            '9' => '9',
+            '10' => '10',
         ];
 
         return $priority;
-    }
-}
-
-if (!function_exists('getRange')) {
-    function getRange()
-    {
-        $priority = [
-            20 => '20',
-            50 => '50',
-            70 => '70',
-            100 => '100',
-            150 => '150',
-            200 => '200',
-        ];
-
-        return $priority;
-    }
-}
-
-
-if (!function_exists('getDaysLeftList')) {
-    function getDaysLeftList()
-    {
-        $days = [
-            '15' => '15 Days',
-            '10' => '10 Days',
-            '7' => '7 Days',
-            '5' => '5 Days',
-            '3' => '3 Days',
-            '2' => '2 Days',
-            '1' => '1 Days',
-            '0' => '0 Days',
-        ];
-
-        return $days;
     }
 }
 
@@ -261,75 +216,5 @@ if (!function_exists('generateUniqueId')) {
         }
 
         return $unique_id;
-    }
-
-    if (!function_exists('getRatingType')) {
-        function getRatingType()
-        {
-            $genders = [
-                '1' => '1 Star',
-                '2' => '2 Star',
-                '3' => '3 Star',
-                '4' => '4 Star',
-                '5' => '5 Star',
-            ];
-
-            return $genders;
-        }
-    }
-
-    if (!function_exists('updateModelRank')) {
-        function updateModelRank($model, $data, $pre_position) {
-            if ($data->rank > $pre_position) {
-                $change_rank = '-';
-                $model_items = \App::make('\App\Models\\'.$model)::select('id', 'rank')
-                    ->where('rank', '<=', $data->rank)
-                    ->where('rank', '>=', $pre_position)
-                    ->where('id', '!=', $data->id)
-                    ->orderBy('rank', 'ASC')
-                    ->get();
-            }else if($data->rank < $pre_position) {
-                $change_rank = '+';
-                $model_items = \App::make('\App\Models\\'.$model)::select('id', 'rank')
-                    ->where('rank', '>=', $data->rank)
-                    ->where('rank', '<=', $pre_position)
-                    ->where('id', '!=', $data->id)
-                    ->orderBy('rank', 'ASC')
-                    ->get();
-            } else {
-                return true;
-            }
-
-            if ($model_items->isNotEmpty()) {
-                foreach ($model_items as $key => $model_item) {
-                    if ($change_rank === '+') {
-                        $model_item->rank = $model_item->rank+1;
-                    } else {
-                        $model_item->rank = $model_item->rank-1;
-                    }
-                    $model_item->save();
-                }
-            }
-
-            return true;
-        }
-    }
-
-    if (!function_exists('deleteModelRank')) {
-        function deleteModelRank($model, $rank) {
-            $model_items = \App::make('\App\Models\\'.$model)::select('id', 'rank')
-                ->where('rank', '>', $rank)
-                ->orderBy('rank', 'ASC')
-                ->get();
-
-            if ($model_items->isNotEmpty()) {
-                foreach ($model_items as $model_item) {
-                    $model_item->rank = $model_item->rank-1;
-                    $model_item->save();
-                }
-            }
-
-            return true;
-        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -37,25 +38,36 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+//        dd($request->all());
         $rules = [
             'name' => 'required',
         ];
         //validation
-        $this->validate($request, $rules);
+//        $this->validate($request, $rules);
+        $validator = Validator::make ( $request->all(), $rules );
+        if ($validator->fails())
+            return response()->json ( array (
 
-        if ($this->category->store($request)) {
-            return response()->json([
-                'type' => 'success',
-                'title' => 'Success',
-                'message' => 'Category saved successfully',
-            ]);
+                'errors' => $validator->getMessageBag()->toArray()
+            ) );
+        else {
+
+            return response()->json ( $this->category->store($request));
         }
 
-        return response()->json([
-            'type' => 'warning',
-            'title' => 'Failed',
-            'message' => 'Category failed to save'
-        ]);
+//        if ($this->category->store($request)) {
+//            return response()->json([
+//                'type' => 'success',
+//                'title' => 'Success',
+//                'message' => 'Category saved successfully',
+//            ]);
+//        }
+//
+//        return response()->json([
+//            'type' => 'warning',
+//            'title' => 'Failed',
+//            'message' => 'Category failed to save'
+//        ]);
     }
 
     public function edit($id)

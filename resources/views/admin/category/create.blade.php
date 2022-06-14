@@ -20,8 +20,12 @@
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         </div>
                         <div class="form-group">
-                            <label for="">Description</label>
-                            <textarea type="tel" name="description" id="" rows="5" placeholder="Enter description" class="form-control"></textarea>
+                            <label for="">Priority</label>
+                            {!! Form::select('priority', getPriority(), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Priority']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label for="">Image</label><br>
+                            <input type="file" name="thumbnail" placeholder="Enter Image" id="">
                         </div>
                         <div class="form-submit">
                             <button type="submit" class="btn btn-primary" onclick="formSubmit(this, event)">Save</button>
@@ -32,3 +36,4 @@
         </div>
     </div>
 @endsection
+
