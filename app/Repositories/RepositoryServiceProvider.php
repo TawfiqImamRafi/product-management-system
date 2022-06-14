@@ -13,6 +13,7 @@ class RepositoryServiceProvider extends ServiceProvider {
             'Category' => 'Category',
             'Brand' => 'Brand',
             'SubCategory' => 'SubCategory',
+            'SubSubCategory' => 'SubSubCategory',
         ];
 
         foreach ($models as $dir => $model) {

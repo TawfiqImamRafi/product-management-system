@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Admin\SubSubCategoryController;
+use App\Http\Controllers\Admin\AjaxLoadController;
 use App\Http\Controllers\Auth\Admin\AdminLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,5 +63,17 @@ Route::group([
         $router->post('/edit', [SubCategoryController::class, 'edit'])->name('sub-category.edit');
         $router->post('/update', [SubCategoryController::class, 'update'])->name('sub-category.update');
         $router->post('/destroy', [SubCategoryController::class, 'destroy'])->name('sub-category.destroy');
+    });
+    Route::group(['prefix' => 'sub/sub/category'], function ($router) {
+        $router->get('/list', [SubSubCategoryController::class, 'index'])->name('sub-sub-category.list');
+        $router->get('/create', [SubSubCategoryController::class, 'create'])->name('sub-sub-category.create');
+        $router->post('/store', [SubSubCategoryController::class, 'store'])->name('sub-sub-category.store');
+        $router->post('/edit', [SubSubCategoryController::class, 'edit'])->name('sub-sub-category.edit');
+        $router->post('/update', [SubSubCategoryController::class, 'update'])->name('sub-sub-category.update');
+        $router->post('/destroy', [SubSubCategoryController::class, 'destroy'])->name('sub-sub-category.destroy');
+    });
+
+    Route::group(['prefix' => 'load'], function ($route) {
+        $route->post('/sub-categories', [AjaxLoadController::class, 'getSubCategories'])->name('get.sub-categories');
     });
 });

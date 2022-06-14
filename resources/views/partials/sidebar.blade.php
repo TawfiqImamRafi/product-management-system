@@ -30,6 +30,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('category.list') }}">Category</a></li>
                     <li><a href="{{ route('sub-category.list') }}">Sub Category</a></li>
+                    <li><a href="{{ route('sub-sub-category.list') }}">Sub Sub Category</a></li>
                 </ul>
             </li>
         </ul>
