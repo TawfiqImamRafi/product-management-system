@@ -12,6 +12,7 @@ class RepositoryServiceProvider extends ServiceProvider {
             'AuthApi' => 'Auth',
             'Category' => 'Category',
             'Brand' => 'Brand',
+            'SubCategory' => 'SubCategory',
         ];
 
         foreach ($models as $dir => $model) {

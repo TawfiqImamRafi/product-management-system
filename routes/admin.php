@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Auth\Admin\AdminLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +53,13 @@ Route::group([
         $router->post('/edit', [BrandController::class, 'edit'])->name('brand.edit');
         $router->post('/update', [BrandController::class, 'update'])->name('brand.update');
         $router->post('/destroy', [BrandController::class, 'destroy'])->name('brand.destroy');
+    });
+    Route::group(['prefix' => 'sub/category'], function ($router) {
+        $router->get('/list', [SubCategoryController::class, 'index'])->name('sub-category.list');
+        $router->get('/create', [SubCategoryController::class, 'create'])->name('sub-category.create');
+        $router->post('/store', [SubCategoryController::class, 'store'])->name('sub-category.store');
+        $router->post('/edit', [SubCategoryController::class, 'edit'])->name('sub-category.edit');
+        $router->post('/update', [SubCategoryController::class, 'update'])->name('sub-category.update');
+        $router->post('/destroy', [SubCategoryController::class, 'destroy'])->name('sub-category.destroy');
     });
 });
