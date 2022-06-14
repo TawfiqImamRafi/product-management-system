@@ -1,0 +1,26 @@
+.form-group {
+    margin-bottom: 15px;
+
+    label {
+        color: $dark;
+        font-family: $font-secondary;
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: $dark;
+        height: 40px;
+
+        &:focus {
+            box-shadow: none;
+            border-color: $primary;
+        }
+        
+        &::placeholder {
+            font-weight: 300;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/assets/js/vendors.js": "/assets/js/vendors.js",
+    "/assets/css/vendors.css": "/assets/css/vendors.css",
+    "/assets/fonts/boxicons.eot": "/assets/fonts/boxicons.eot",
+    "/assets/fonts/boxicons.svg": "/assets/fonts/boxicons.svg",
+    "/assets/fonts/boxicons.ttf": "/assets/fonts/boxicons.ttf",
+    "/assets/fonts/boxicons.woff": "/assets/fonts/boxicons.woff",
+    "/assets/fonts/boxicons.woff2": "/assets/fonts/boxicons.woff2"
+}

@@ -1,0 +1,76 @@
+.table {
+    overflow: hidden;
+    thead {
+        
+        tr {
+            border-bottom: 1px solid $color-gray-light;
+            th {
+                font-size: 1rem;
+                font-weight: 500;
+                padding: 7px 10px;
+                border-bottom: none;
+                
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid $gray_light;
+            position: relative;
+            cursor: pointer;
+
+            td {
+                font-size: 0.875rem;
+                font-weight: 300;
+                color: $secondary_dark;
+                border-bottom: none;
+                padding: 7px 10px;
+                vertical-align: middle;
+
+                .action {
+                    display: flex;
+                    justify-content: flex-center;
+                    align-items: center;
+                    column-gap: 5px;
+                    flex-wrap: wrap;
+
+                    .btn {
+                        &.btn-sm {
+                            font-size: 1rem;
+                            line-height: 0;
+                            padding: 5px;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+
+            &::after {
+                position: absolute;
+                content: '';
+                top: 0;
+                left: -4px;
+                width: 4px;
+                height: 100%;
+                background-color: $primary;
+                border-radius: 5px 0px 0px 5px;
+
+            }
+
+            &:hover {
+                background-color: $gray_light;
+
+                &::after {
+                    left: 0px;
+                    transition: 250ms;
+                }
+            }
+            
+        }
+    }
+
+    > :not(:first-child) {
+        border-top: 0px solid $secondary_light !important;
+    }
+}

@@ -1,0 +1,19 @@
+.main-content {
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    transition: 300ms linear;
+    padding: 15px;
+}
+
+.page-info {
+    margin-bottom: 15px;
+
+    .page-title {
+        font-weight: 500;
+        font-size: 1.25rem;
+    }
+
+    .page-description {
+        font-weight: 300;
+    }
+}

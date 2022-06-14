@@ -1,0 +1,113 @@
+.widgets {
+    .widget {
+        background-color: $color_white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 3px 5px #b4c9de4a;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        cursor: pointer;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0%;
+            height: 100%;
+            opacity: 0.85;
+            background-color: $primary;
+            border-radius: 10px 0px 0px 10px;
+            z-index: -1;
+        }
+
+        &:hover {
+            &::after {
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                transform: translate(0%, 0%);
+                transition: 450ms ease-in-out;
+
+            }
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-bottom: 15px;
+            column-gap: 10px;
+
+            .icon {
+                background-color: $gray_light;
+                color: $secondary_dark;
+                font-size: 1rem;
+                padding: 4px 5px 3px 5px;
+                border-radius: 5px;
+            }
+
+            .title {
+                font-weight: 400;
+                font-size: 1rem;
+                color: $secondary;
+            }
+        }
+
+        .widget-body {
+            padding: 5px 0px;
+            h2 {
+                color: $primary;
+                text-align: center;
+                font-size: 1.5rem;
+            }
+        }
+
+        &.widget-danger {
+            .widget-body {
+                h2 {
+                    color: #ff623e;
+                }
+            }
+            &::after {
+                background-color: #ff623e;
+            }
+        }
+
+        &.widget-success {
+            .widget-body {
+                h2 {
+                    color: #479e60;
+                }
+            }
+            &::after {
+                background-color: #479e60;
+            }
+        }
+
+        &.widget-info {
+            .widget-body {
+                h2 {
+                    color: #0dcaf0;
+                }
+            }
+            &::after {
+                background-color: #0dcaf0;
+            }
+        }
+
+        &.widget-warning {
+            .widget-body {
+                h2 {
+                    color: #ffc107;
+                }
+            }
+            &::after {
+                background-color: #ffc107;
+            }
+        }
+    }
+}

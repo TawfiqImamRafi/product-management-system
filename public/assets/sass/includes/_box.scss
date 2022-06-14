@@ -1,0 +1,42 @@
+.box {
+    background-color: $color_white;
+    border-radius: 10px;
+    padding: 0px 15px;
+    overflow-y: auto;
+    box-shadow: 0px 3px 6px #0000000d;
+    margin-bottom: 30px;
+
+    .box-header {
+        border-bottom: 1px solid $color-gray-light;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0px 10px;
+
+        .box-title {
+            h4 {
+                font-size: 1.125rem;
+                font-weight: 500;
+            }
+        }
+
+        .box-action {
+            ul {
+                display: flex;
+                column-gap: 10px;
+                li {
+                    a {
+
+                    }
+                }
+            }
+        }
+    }
+    .box-body {
+        padding: 15px 0px;
+    }
+    
+    .box-footer {
+        padding: 10px 0px;
+    }
+}
