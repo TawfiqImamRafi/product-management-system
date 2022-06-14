@@ -8,9 +8,9 @@ interface BrandRepositoryInterface
 
     public function store($request);
 
-    public function getById($id);
+    public function getById($slug);
 
     public function update($request);
 
-    public function delete($id);
+    public function delete($slug);
 }

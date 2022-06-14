@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SubSubCategoryController;
+use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\AjaxLoadController;
 use App\Http\Controllers\Auth\Admin\AdminLoginController;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +72,14 @@ Route::group([
         $router->post('/edit', [SubSubCategoryController::class, 'edit'])->name('sub-sub-category.edit');
         $router->post('/update', [SubSubCategoryController::class, 'update'])->name('sub-sub-category.update');
         $router->post('/destroy', [SubSubCategoryController::class, 'destroy'])->name('sub-sub-category.destroy');
+    });
+    Route::group(['prefix' => 'attribute'], function ($router) {
+        $router->get('/list', [AttributeController::class, 'index'])->name('attribute.list');
+        $router->get('/create', [AttributeController::class, 'create'])->name('attribute.create');
+        $router->post('/store', [AttributeController::class, 'store'])->name('attribute.store');
+        $router->post('/edit', [AttributeController::class, 'edit'])->name('attribute.edit');
+        $router->post('/update', [AttributeController::class, 'update'])->name('attribute.update');
+        $router->post('/destroy', [AttributeController::class, 'destroy'])->name('attribute.destroy');
     });
 
     Route::group(['prefix' => 'load'], function ($route) {

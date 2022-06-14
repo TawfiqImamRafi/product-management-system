@@ -33,6 +33,12 @@
                     <li><a href="{{ route('sub-sub-category.list') }}">Sub Sub Category</a></li>
                 </ul>
             </li>
+            <li>
+                <a href="{{ route('attribute.list') }}">
+                    <i class="bx bx-cog"></i>
+                    <span>Attribute</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>
