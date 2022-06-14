@@ -3,27 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Brand\BrandRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
-    protected $category;
+    protected $brand;
 
-    public function __construct(CategoryRepositoryInterface $category)
+    public function __construct(BrandRepositoryInterface $brand)
     {
-        $this->category = $category;
+        $this->brand = $brand;
     }
 
     public function index()
     {
         $data = [
-            'page_title' => 'Category list',
-            'categories' => $this->category->categories(),
+            'page_title' => 'Brand list',
+            'brands' => $this->brand->brands(),
         ];
 
-        return view('admin.category.index')->with(array_merge($this->data, $data));
+        return view('admin.brand.index')->with(array_merge($this->data, $data));
     }
 
     public function store(Request $request)
@@ -41,7 +41,7 @@ class CategoryController extends Controller
             ) );
         else {
 
-            return response()->json ( $this->category->store($request));
+            return response()->json ( $this->brand->store($request));
         }
 
 //        if ($this->category->store($request)) {
@@ -61,7 +61,7 @@ class CategoryController extends Controller
 
     public function edit(Request $request)
     {
-        return response()->json ( $this->category->getById($request->slug));
+        return response()->json ( $this->brand->getById($request->slug));
     }
 
     public function update(Request $request)
@@ -80,7 +80,7 @@ class CategoryController extends Controller
             ) );
         else {
 
-            return response()->json ( $this->category->update($request));
+            return response()->json ( $this->brand->update($request));
         }
         // $this->validate($request, $rules);
 
@@ -102,6 +102,6 @@ class CategoryController extends Controller
 
     public function destroy(Request $request)
     {
-        return response()->json ( $this->category->delete($request->slug));
+        return response()->json ( $this->brand->delete($request->slug));
     }
 }

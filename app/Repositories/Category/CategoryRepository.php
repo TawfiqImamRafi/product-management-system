@@ -48,9 +48,9 @@ class CategoryRepository implements CategoryRepositoryInterface
         return false;
     }
 
-    public function update($request, $slug)
+    public function update($request)
     {
-        $category = Category::where("slug",$slug)->first();
+        $category = Category::where("slug",$request->slug)->first();
         $category->name = $request->get('name');
         $category->priority = $request->get('priority');
          if ($request->hasFile('thumbnail')) {

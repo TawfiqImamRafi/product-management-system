@@ -1,13 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\Admin\EbookCourseController;
-use App\Http\Controllers\Admin\FooterContentController;
-use App\Http\Controllers\Admin\FooterController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Auth\Admin\AdminLoginController;
-use App\Models\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,8 +41,16 @@ Route::group([
         $router->get('/list', [CategoryController::class, 'index'])->name('category.list');
         $router->get('/create', [CategoryController::class, 'create'])->name('category.create');
         $router->post('/store', [CategoryController::class, 'store'])->name('category.store');
-        $router->get('/edit/{slug}', [CategoryController::class, 'edit'])->name('category.edit');
-        $router->put('/edit/{slug}', [CategoryController::class, 'update'])->name('category.update');
-        $router->delete('/destroy/{slug}', [CategoryController::class, 'destroy'])->name('category.destroy');
+        $router->post('/edit', [CategoryController::class, 'edit'])->name('category.edit');
+        $router->post('/update', [CategoryController::class, 'update'])->name('category.update');
+        $router->post('/destroy', [CategoryController::class, 'destroy'])->name('category.destroy');
+    });
+    Route::group(['prefix' => 'brand'], function ($router) {
+        $router->get('/list', [BrandController::class, 'index'])->name('brand.list');
+        $router->get('/create', [BrandController::class, 'create'])->name('brand.create');
+        $router->post('/store', [BrandController::class, 'store'])->name('brand.store');
+        $router->post('/edit', [BrandController::class, 'edit'])->name('brand.edit');
+        $router->post('/update', [BrandController::class, 'update'])->name('brand.update');
+        $router->post('/destroy', [BrandController::class, 'destroy'])->name('brand.destroy');
     });
 });

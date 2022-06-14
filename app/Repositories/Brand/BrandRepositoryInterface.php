@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Category;
+namespace App\Repositories\Brand;
 
-interface CategoryRepositoryInterface
+interface BrandRepositoryInterface
 {
-    public function categories();
+    public function brands();
 
     public function store($request);
 

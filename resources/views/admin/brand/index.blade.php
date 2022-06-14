@@ -6,11 +6,11 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        <h4>Create New Category</h4>
+                        <h4>Create New Brand</h4>
                     </div>
                 </div>
                 <div class="box-body">
-                    <form id="catForm" method="post" enctype="multipart/form-data">
+                    <form id="brandForm" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="">Name<span> *</span></label>
@@ -18,12 +18,8 @@
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         </div>
                         <div class="form-group">
-                            <label for="">Priority</label>
-                            {!! Form::select('priority', getPriority(), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Priority']) !!}
-                        </div>
-                        <div class="form-group">
-                            <label for="">Image</label>
-                            <input type="file" name="thumbnail" class="form-control" id="image-input">
+                            <label for="">Logo</label>
+                            <input type="file" name="logo" class="form-control" id="image-input">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-submit">
@@ -37,7 +33,7 @@
             <div class="box">
                 <div class="box-header">
                     <div class="box-title">
-                        <h4>Category List</h4>
+                        <h4>Brand List</h4>
                     </div>
                 </div>
                 <div class="box-body">
@@ -45,24 +41,22 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Image</th>
+                            <th>Logo</th>
                             <th>Name</th>
-                            <th>Priority</th>
                             <th>Action</th>
                         </tr>
                         </thead>
-                        <tbody id="cat-list">
-                        @if($categories)
-                            @foreach ($categories as $key => $category)
-                                <tr id='item-{{ $category->slug }}'>
-                                    <td>{{ $category->id }}</td>
-                                    <td><img src="{{ $category->thumbnail ? asset($category->thumbnail): "/assets/img/no-image.png" }}" alt="" height="50px" width="50px"></td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->priority }}</td>
+                        <tbody id="brand-list">
+                        @if($brands)
+                            @foreach ($brands as $key => $brand)
+                                <tr id='item-{{ $brand->slug }}'>
+                                    <td>{{ $brand->id }}</td>
+                                    <td><img src="{{ $brand->logo ? asset($brand->logo): "/assets/img/no-image.png" }}" alt="" height="50px" width="50px"></td>
+                                    <td>{{ $brand->name }}</td>
                                     <td>
                                         <div class='action'>
-                                            <button type="button" id="catEdit" data-slug="{{ $category->slug }}" class="btn btn-sm btn-outline-warning"><i class='bx bx-edit'></i></button>
-                                            <button type="button" id="catDelete" data-slug="{{ $category->slug }}" class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
+                                            <button type="button" id="brandEdit" data-slug="{{ $brand->slug }}" class="btn btn-sm btn-outline-warning"><i class='bx bx-edit'></i></button>
+                                            <button type="button" id="brandDelete" data-slug="{{ $brand->slug }}" class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -80,25 +74,21 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Brand</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form id="catEditForm" method="post" enctype="multipart/form-data">
+            <form id="brandEditForm" method="post" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="slug"  id="cat_slug">
+                <input type="hidden" name="slug"  id="brand_slug">
                 <div class="form-group">
                     <label for="">Name<span> *</span></label>
-                    <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
+                    <input type="text" name="name" placeholder="Enter Name" id="brand_name" class="form-control">
                     <span class="text-danger">{{ $errors->first('name') }}</span>
                 </div>
                 <div class="form-group">
-                    <label for="">Priority</label>
-                    {!! Form::select('priority', getPriority(), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Priority', 'id' => 'cat_priority']) !!}
-                </div>
-                <div class="form-group">
-                    <label for="">Image</label>
-                    <input type="file" name="thumbnail" class="form-control" id="cat_img">
+                    <label for="">Logo</label>
+                    <input type="file" name="logo" class="form-control" id="brand_img">
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-submit">
@@ -122,11 +112,12 @@
 
         (function ($) {
             "use-strict"
-            $("#catForm").submit(function(e) {
+            $("#brandForm").submit(function(e) {
                 e.preventDefault();
                 let formData = new FormData(this);
+                console.log(formData);
 
-                $.ajax("{{ route('category.store') }}",{
+                $.ajax("{{ route('brand.store') }}",{
                     method: 'post',
                     processData: false,
                     contentType: false,
@@ -148,24 +139,23 @@
                             window.location.reload();
                             // var row = '<tr id="item-'+ data.slug + '">';
                             //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset('data.thumbnail')}}" alt="" height="50px" width="50px">' + '</td>';
+                            //     row += '<td>' + '<img src="{{asset('data.logo')}}" alt="" height="50px" width="50px">' + '</td>';
                             //     row += '<td>' + data.name + '</td>';
-                            //     row += '<td>' + data.priority + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="catEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="catDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                            // row += '<td>' + '<div class="action">' + '<button type="button" id="brandEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="brandDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
                             //     if($("#id").val()){
                             //         $("#item-" + data.id).replaceWith(row);
                             //     }else{
                             //         $("#cat-list").prepend(row);
                             //     }
 
-                                $("#catForm").trigger('reset');
+                                $("#brandForm").trigger('reset');
                         }
                     },
                 })
             });
 
 
-            $('body').on('click', '#catDelete', function () {
+            $('body').on('click', '#brandDelete', function () {
                     var slug = $(this).data('slug');
                     Swal.fire({
                         title: 'Are you sure?',
@@ -179,7 +169,7 @@
                     
                     $.ajax({
                         type:"POST",
-                        url: "{{ route('category.destroy') }}",
+                        url: "{{ route('brand.destroy') }}",
                         data: { slug: slug },
                         dataType: 'json',
                         beforeSend: function () {
@@ -194,31 +184,30 @@
             });
 
 
-            $('body').on('click', '#catEdit', function () {
+            $('body').on('click', '#brandEdit', function () {
                 var slug = $(this).data('slug');
 
                 $.ajax({
                     type:"POST",
-                    url: "{{ route('category.edit') }}",
+                    url: "{{ route('brand.edit') }}",
                     data: { slug: slug },
                     dataType: 'json',
                     success: function(res){
                     console.log(res);
                     var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
                     myModal.show()
-                    $('#cat_slug').val(res.slug);
-                    $('#cat_name').val(res.name);
-                    $('#cat_priority').val(res.priority);
+                    $('#brand_slug').val(res.slug);
+                    $('#brand_name').val(res.name);
                 }
                 });
             });
 
 
-            $("#catEditForm").submit(function(e) {
+            $("#brandEditForm").submit(function(e) {
                 e.preventDefault();
                 let formData = new FormData(this);
 
-                $.ajax("{{ route('category.update') }}",{
+                $.ajax("{{ route('brand.update') }}",{
                     method: 'post',
                     processData: false,
                     contentType: false,
@@ -241,17 +230,16 @@
                             // $('#item-'+data.slug).html('<td>Bar</td>');
                             // var row = '<tr id="item-'+ data.slug + '">';
                             //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset("' + data.thumbnail + '")}}" alt="" height="50px" width="50px">' + '</td>';
+                            //     row += '<td>' + '<img src="{{asset("' + data.logo + '")}}" alt="" height="50px" width="50px">' + '</td>';
                             //     row += '<td>' + data.name + '</td>';
-                            //     row += '<td>' + data.priority + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="catEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="catDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                            // row += '<td>' + '<div class="action">' + '<button type="button" id="brandEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="brandDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
                             //     if($("#id").val()){
                             //         $("#item-" + data.slug).replaceWith(row);
                             //     }else{
                             //         $("#cat-list").prepend(row);
                             //     }
 
-                                $("#catEditForm").trigger('reset');
+                                $("#brandEditForm").trigger('reset');
                         }
                     },
                 })

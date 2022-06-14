@@ -13,11 +13,21 @@
             <li class="treeview">
                 <a href="javascript:void(0)">
                     <i class="bx bx-cog"></i>
+                    <span>Brand</span>
+                    <i class='bx bx-chevron-down'></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('brand.list') }}">List</a></li>
+                </ul>
+            </li>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="bx bx-cog"></i>
                     <span>Category</span>
                     <i class='bx bx-chevron-down'></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('category.create') }}">Create</a></li>
                     <li><a href="{{ route('category.list') }}">List</a></li>
                 </ul>
             </li>
