@@ -15,38 +15,38 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Thumbnail</th>
-                    <th>Q.Name</th>
-                    <th>Subject</th>
-                    <th>Questions</th>
-                    <th>Duration</th>
-                    <th>Question Type</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Category</th>
+                    <th>Variant</th>
                     <th>Price</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                @if($productzes)
-                    @foreach ($productzes as $key => $product)
+                @if($products)
+                    @foreach ($products as $key => $product)
                     <tr>
-                        <td>{{ $key+1 }}</td>
+                        <td>{{ $product->id }}</td>
                         <td style="width: 100px">
-                            @if($product->thumbnail)
-                                <img src="{{ asset($product->thumbnail) }}" alt="">
+                            @if($product->image)
+                                <img src="{{ asset($product->image) }}" alt="">
                             @endif
                         </td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->subject->name }}</td>
-                        <td class="text-center">{{ $product->questions->count() }}</td>
-                        <td>{{ $product->duration }}</td>
-                        <td>{{ $product->product_type }}</td>
-                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->slug }}</td>
+                        <td>{{ $product->category->name }}</td>
+                        <td>{{ $product->variant->count() }}</td>
+                        <td>{{ $product->price->unit_price }}</td>
+                        <td>{!! styleStatus($product->is_active)!!}</td>
                         <td>
                             <div class="action">
-                                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-outline-warning">
+                                <a href="{{ route('product.edit', $product->slug) }}" class="btn btn-sm btn-outline-warning">
                                     <i class="bx bx-edit"></i>
                                 </a>
-                                {!! Form::open(['route' => ['product.destroy', $product->id], 'method' => 'DELETE']) !!}
+                                {!! Form::open(['route' => ['product.destroy', $product->slug], 'method' => 'DELETE']) !!}
                                 <button type="submit" onclick="deleteSubmit(this, event)" class="btn btn-sm btn-outline-danger">
                                     <i class="bx bx-trash"></i>
                                 </button>
@@ -60,7 +60,6 @@
             </table>
         </div>
         <div class="box-footer">
-            {{ $productzes->links() }}
         </div>
     </div>
 @endsection

@@ -87,12 +87,13 @@ Route::group([
         $router->get('/list', [ProductController::class, 'index'])->name('product.list');
         $router->get('/create', [ProductController::class, 'create'])->name('product.create');
         $router->post('/store', [ProductController::class, 'store'])->name('product.store');
-        $router->post('/edit', [ProductController::class, 'edit'])->name('product.edit');
-        $router->post('/update', [ProductController::class, 'update'])->name('product.update');
-        $router->post('/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
+        $router->get('/edit/{slug}', [ProductController::class, 'edit'])->name('product.edit');
+        $router->put('/update/{slug}', [ProductController::class, 'update'])->name('product.update');
+        $router->delete('/destroy/{slug}', [ProductController::class, 'destroy'])->name('product.destroy');
     });
 
     Route::group(['prefix' => 'load'], function ($route) {
         $route->post('/sub-categories', [AjaxLoadController::class, 'getSubCategories'])->name('get.sub-categories');
+        $route->post('/sub-sub-categories', [AjaxLoadController::class, 'getSubSubCategories'])->name('get.sub-sub-categories');
     });
 });

@@ -10,9 +10,10 @@
                 <a href="{{ route('product.list') }}" class="btn btn-sm btn-secondary">Product List</a>
             </div>
         </div>
-        {!! Form::open(['route' => 'product.store', 'method' => 'POST']) !!}
+        {!! Form::open(['route' => 'product.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
         <div class="box-body">
             <input type="hidden" name="admin_id" value="{{ Auth::guard('admin')->user()->id }}">
+            
             <div class="form-group">
                 <label for="">Name<span> *</span></label>
                 <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
@@ -23,105 +24,340 @@
                 <textarea name="description" rows="5" placeholder="Enter description" class="form-control"></textarea>
                 <span class="text-danger">{{ $errors->first('description') }}</span>
             </div>
-
+            <h4 class="mb-3 mt-4">General Info</h4>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-md-4">
                     <div class="form-group">
-                        <label for="">Category</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <label for="">Category<span> *</span></label>
+                        {!! Form::select('category_id', selectOptions($parent_categories), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Category' , 'id' => 'parent_category']) !!}<span class="text-danger">{{ $errors->first('category_id') }}</span>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Sub Category</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <select class="form-control" name="sub_category_id" id="sub_category">
+                        </select>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-md-4">
                     <div class="form-group">
-                        <label for="">Sub Sub Category</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <label for="">Sub sub Category</label>
+                        <select class="form-control" name="sub_sub_category_id" id="sub_sub_category">
+                        </select>
                     </div>
                 </div>
+
+                
             </div>
 
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label for="">Brand</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <label for="">Brand<span> *</span></label>
+                        {!! Form::select('brand_id', selectOptions($brands), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Brand']) !!}
+                        <span class="text-danger">{{ $errors->first('brand_id') }}</span>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label for="">Unit</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        {!! Form::select('unit', getUnit(), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Unit']) !!}
                     </div>
                 </div>
             </div>
+            <h4 class="mb-3 mt-4">Variations</h4>
+            <div class="form-group">
+                <label for="">Attribute</label>
+                <select name="attribute_id[]" class="form-control attribute-select2" id="attribute_id" multiple>
+                    @foreach($attributes as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div id="attribute-section">
+            </div>
 
+            <h4 class="mb-3 mt-4">Price & Stock</h4>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label for="">Unit Price</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <label for="">Unit Price<span> *</span></label>
+                        <input type="number" name="unit_price" placeholder="0.00" class="form-control unit-price">
+                        <span class="text-danger">{{ $errors->first('unit_price') }}</span>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label for="">Purchase Price</label>
-                        <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                        <label for="">Purchase Price<span> *</span></label>
+                        <input type="number" name="purchase_price" placeholder="0.00" class="form-control">
+                        <span class="text-danger">{{ $errors->first('purchase_price') }}</span>
                     </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label class="col-form-label col-lg-4">Discount Type</label>
-                <div class="col-lg-8">
-                    <div class="d-flex justify-content-start align-items-center gap-4">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="discount_type" value="percentage" checked>
-                            <span class="ml-2">Discount in Percentage (%)</span>
-                        </label>
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="discount_type" value="flat">
-                            <span class="ml-2">Discount in Flat</span>
-                        </label>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Tax Percentage (%)</label>
+                        <input type="number" name="tax" placeholder="Enter tax percentage" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Discount<span> *</span></label>
+                        <input type="number" name="discount" class="form-control" placeholder="0.00">
+                        <span class="text-danger">{{ $errors->first('discount') }}</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Discount Type</label>
+                        {!! Form::select('discount_type', getDiscountType(), null, ['class' => 'form-select form-control', 'placeholder' => 'Select Discount Type']) !!}
                     </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label class="col-form-label col-lg-4">Discount</label>
-                <div class="col-lg-8">
-                    <input type="number" name="discount" class="form-control" placeholder="0.00">
-                    <span class="text-danger"></span>
+            <div class="variation-table" style="display: none">
+                <h4 class="mb-3 mt-4">Product Variations</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Variation</th>
+                        <th>Unit Price</th>
+                        <th>Sku</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody id="variant-section">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="">Total Quantity</label>
+                        <input type="number" name="quantity" placeholder="0.00" class="form-control total-quantity">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="">Shipping Cost</label>
+                        <input type="number" name="shipping_cost" placeholder="0.00" class="form-control">
+                    </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-form-label col-lg-4">Thumbnail</label>
-                <div class="col-lg-8">
-                    <input type="file" name="thumbnail" placeholder="Enter Image" id="">
-                    <span class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input type="file" name="image" placeholder="Enter Image" id="">
+                <span class="text-danger">{{ $errors->first('image') }}</span>
             </div>
         </div>
         <div class="box-footer">
             <div class="row">
                 <div class="col-lg-10 offset-md-1">
                     <div class="form-submit d-flex justify-content-end align-items-center">
-                        <button type="submit" class="btn btn-primary" onclick="formSubmit(this, event)">Save & Continue</button>
+                        <button type="submit" class="btn btn-primary" onclick="formSubmit(this, event)">Save</button>
                     </div>
                 </div>
             </div>
         </div>
         {!! Form::close() !!}
     </div>
+    <template id="attributeTemplate">
+            <div class="form-group row">
+                <div class="col-lg-4">
+                    <input type="text" class="form-control attr-name" value="" readonly>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" name="attribute_tag[]" class="form-control tags" data-attribute>
+                </div>
+            </div>
+    </template>
+    <template id="variantTemplate">
+        <tr>
+            <td><input type="text" name="variation_name[]" class="form-control variation_name" readonly></td>
+            <td><input type="number" name="variation_price[]" class="form-control variation_price"></td>
+            <td><input type="text" name="variation_sku[]" class="form-control variation_sku" readonly></td>
+            <td><input type="number" name="variation_quantity[]" class="form-control variation_quantity"></td>
+        </tr>
+    </template>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers:{
+                    'x-csrf-token' : $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+        (function ($) {
+            "use-strict"
+
+
+            $(document).ready(function() {
+                const allAttributes = @json($attributes)
+
+
+                $('.tags').tagsInput({
+                'width': '100%',
+                'height': '75%',
+                'interactive': true,
+                'defaultText': 'Add More',
+                'removeWithBackspace': true,
+                'minChars': 0,
+                'maxChars': 20,
+                'placeholderColor': '#666666'
+            });
+
+                $('.attribute-select2').select2({
+                    placeholder: "Select Attribute",
+                    allowClear: true
+                });
+
+
+                $(document).on('change', '#attribute_id', function () {
+                    const attribute_ids = $('#attribute_id').val();
+                    let services = [];
+                    $.each(attribute_ids, function(key, value) {
+                      service = allAttributes.find((item) => {
+                            return item.id == value
+                        });
+                        services.push(service)
+                    });
+
+                    const attributeTemplate = document.getElementById('attributeTemplate');
+                    const attributeElement = document.getElementById('attribute-section');
+
+                    if (services && services.length > 0) {
+                        $('#attribute-section').html('');
+                        for(const attribute of services) {
+                            const serviceEl = document.importNode(attributeTemplate.content, true)
+                            serviceEl.querySelector('.attr-name').setAttribute('value', attribute.name)
+                            serviceEl.querySelector('.tags').setAttribute('data-attribute', attribute.id)
+                            attributeElement.append(serviceEl)
+                            // $('#attribute-section').append('<div class="form-group row"> <div class="col-lg-4"> <input type="text" class="form-control attr-name" value="'+ attribute.name +'" readonly></div><div class="col-lg-8"> <input type="text" name="attribute_tag[]" class="form-control tags" data-role="taginputs"> </div></div>');
+                        }
+                    } else {
+                        $('#attribute-section').html('');
+                    }
+
+                });
+                $(document).ready(function() {
+                    $(window).keydown(function(event){
+                        if(event.keyCode == 13) {
+                        event.preventDefault();
+                        return false;
+                        }
+                    });
+                    });
+
+
+                $(document).on('keyup', '.tags', function () {
+                    var variation_name = $('.tags').val();
+                    // console.log(variation_names);
+                    const attr_ids = $('#attribute_id').val();
+                    let unit_price = $('.unit-price').val();
+                    let servics = [];
+                    $.each(attr_ids, function(key, value) {
+                      service = allAttributes.find((item) => {
+                            return item.id == value
+                        });
+                        servics.push(service)
+                    });
+                    const variantTemplate = document.getElementById('variantTemplate');
+                    const variantElement = document.getElementById('variant-section');
+
+                    let total_quantity = 0;
+                    if (servics && servics.length > 0) {
+                        $('#variant-section').html('');
+                        for(const varient of servics) {
+                            const var2 = document.importNode(variantTemplate.content, true)
+                            var2.querySelector('.variation_name').setAttribute('value', variation_name)
+                            var2.querySelector('.variation_price').setAttribute('value', unit_price)
+                            var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+variation_name)
+                            var2.querySelector('.variation_quantity').setAttribute('value', 1)
+                            variantElement.append(var2)
+                            total_quantity = total_quantity+1
+                        }
+                    } else {
+                        $('#variant-section').html('');
+                    }
+                    $(".total-quantity").val(total_quantity);
+                    $(".variation-table").css({"display": "block"});
+                });
+
+
+                $(document).on('keyup', '.unit-price', function () {
+                    var variation_name = $('.tags').val();
+                    const attr_ids = $('#attribute_id').val();
+                    let unit_price = $(this).val();
+                    let servics = [];
+                    $.each(attr_ids, function(key, value) {
+                      service = allAttributes.find((item) => {
+                            return item.id == value
+                        });
+                        servics.push(service)
+                    });
+                    const variantTemplate = document.getElementById('variantTemplate');
+                    const variantElement = document.getElementById('variant-section');
+
+                    if (servics && servics.length > 0) {
+                        $('#variant-section').html('');
+                        for(const varient of servics) {
+                            const var2 = document.importNode(variantTemplate.content, true)
+                            var2.querySelector('.variation_name').setAttribute('value', variation_name)
+                            var2.querySelector('.variation_price').setAttribute('value', unit_price)
+                            var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+variation_name)
+                            var2.querySelector('.variation_quantity').setAttribute('value', 1)
+                            variantElement.append(var2)
+                        }
+                    } else {
+                        $('#variant-section').html('');
+                    }
+                    $(".variation-table").css({"display": "block"});
+                });
+
+
+                $('#parent_category').on('change', function(e) {
+                    var cat_id = e.target.value;
+                    $.ajax({
+                        url: "{{ route('get.sub-categories') }}",
+                        type: "POST",
+                        data: {
+                            cat_id: cat_id
+                        },
+                        success: function(data) {
+                            $('#sub_category').empty();
+                            $('#sub_category').append('<option>--select--</option>');
+                            $.each(data.data, function(index, subcategory) {
+                                $('#sub_category').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                            })
+                        }
+                    })
+                });
+
+
+                $('#sub_category').on('change', function(e) {
+                    var cat_id = e.target.value;
+                    $.ajax({
+                        url: "{{ route('get.sub-sub-categories') }}",
+                        type: "POST",
+                        data: {
+                            cat_id: cat_id
+                        },
+                        success: function(data) {
+                            $('#sub_sub_category').empty();
+                            $('#sub_sub_category').append('<option>--select--</option>');
+                            $.each(data.data, function(index, subcategory) {
+                                $('#sub_sub_category').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                            })
+                        }
+                    })
+                });
+            });
+
+
+
+        }(jQuery))
+    </script>
+@endpush

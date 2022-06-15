@@ -131,6 +131,47 @@ if (!function_exists('getPriority')) {
     }
 }
 
+if (!function_exists('getUnit')) {
+    function getUnit()
+    {
+        $unit = [
+            'kg' => 'kg',
+            'ltr' => 'ltr',
+            'gm' => 'gm',
+            'pcs' => 'pcs',
+        ];
+
+        return $unit;
+    }
+}
+
+if (!function_exists('getDiscountType')) {
+    function getDiscountType()
+    {
+        $discount_type = [
+            'percentage' => 'Percentage(%)',
+            'flat' => 'Flat',
+        ];
+
+        return $discount_type;
+    }
+}
+
+if (!function_exists('styleStatus')) {
+    function styleStatus($value)
+    {
+        $output = '';
+
+        if ($value == 1) {
+            $output .= '<span class="btn btn-success">Active</span>';
+        } else if ($value == 0) {
+            $output .= '<span class="btn btn-danger">Inactive</span>';
+        }
+
+        return $output;
+    }
+}
+
 if (!function_exists('selectOptions')) {
     function selectOptions($objects, $key='id', $value='name')
     {
