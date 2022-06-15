@@ -166,20 +166,24 @@
                         cancelButtonColor: '#4c4c4c',
                         confirmButtonText: 'Yes, delete it!'
                     }).then(function (stat) {
-                    
-                    $.ajax({
-                        type:"POST",
-                        url: "{{ route('brand.destroy') }}",
-                        data: { slug: slug },
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $(this).attr('disabled', 'disabled');
-                            $(this).html('<i class="fa fa-spinner fa-spin"></i>');
-                        },
-                        success: function(res){                                                  
-                            $("#item-" + slug).remove();                    
+                        if (stat.value != undefined && stat.value) {
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('brand.destroy') }}",
+                                data: {slug: slug},
+                                dataType: 'json',
+                                beforeSend: function () {
+                                    $(this).attr('disabled', 'disabled');
+                                    $(this).html('<i class="fa fa-spinner fa-spin"></i>');
+                                },
+                                success: function (res) {
+                                    $("#item-" + slug).remove();
+                                },
+                                complete: function () {
+                                    $(this).removeAttr('disabled');
+                                }
+                            });
                         }
-                    });
                 });
             });
 

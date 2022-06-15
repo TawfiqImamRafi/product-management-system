@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="row">
+
+        {{--sub category create form--}}
+
         <div class="col-lg-4">
             <div class="box">
                 <div class="box-header with-border">
@@ -32,6 +35,8 @@
                 </div>
             </div>
         </div>
+
+        {{--sub category list--}}
         <div class="col-lg-8">
             <div class="box">
                 <div class="box-header">
@@ -53,7 +58,7 @@
                         <tbody id="cat-list">
                         @if($categories)
                             @foreach ($categories as $key => $category)
-                                <tr id='item-{{ $category->slug }}'>
+                                <tr id='item-{{ $category->id }}'>
                                     <td>{{ $category->category_id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
@@ -74,7 +79,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Edit Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -143,18 +148,18 @@
                             }
                         }
                         else {
-                            window.location.reload();
-                            // var row = '<tr id="item-'+ data.slug + '">';
-                            //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset('data.thumbnail')}}" alt="" height="50px" width="50px">' + '</td>';
-                            //     row += '<td>' + data.name + '</td>';
-                            //     row += '<td>' + data.priority + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="catEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="catDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
-                            //     if($("#id").val()){
-                            //         $("#item-" + data.id).replaceWith(row);
-                            //     }else{
-                            //         $("#cat-list").prepend(row);
-                            //     }
+                            // window.location.reload();
+                             var row = '<tr id="item-'+ data.id + '">';
+                                 row += '<td>' + data.category_id + '</td>';
+                                 row += '<td>' + data.name + '</td>';
+                                 row += '<td>' + data.slug + '</td>';
+                                 row += '<td>' + data.priority + '</td>';
+                             row += '<td>' + '<div class="action">' + '<button type="button" id="catEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="catDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                                 if($("#id").val()){
+                                     $("#item-" + data.id).replaceWith(row);
+                                 }else{
+                                     $("#cat-list").prepend(row);
+                                 }
 
                                 $("#catForm").trigger('reset');
                         }
@@ -174,7 +179,7 @@
                         cancelButtonColor: '#4c4c4c',
                         confirmButtonText: 'Yes, delete it!'
                     }).then(function (stat) {
-                    
+                    if (stat.value != undefined && stat.value) {
                     $.ajax({
                         type:"POST",
                         url: "{{ route('sub-category.destroy') }}",
@@ -184,10 +189,14 @@
                             $(this).attr('disabled', 'disabled');
                             $(this).html('<i class="fa fa-spinner fa-spin"></i>');
                         },
-                        success: function(res){                                                  
-                            $("#item-" + slug).remove();                    
-                        }
-                    });
+                        success: function(res){
+                            $("#item-" + slug).remove();
+                        },
+                        complete: function () {
+                                $(this).removeAttr('disabled');
+                            }
+                        });
+                    }
                 });
             });
 
@@ -236,19 +245,13 @@
                             }
                         }
                         else {
-                            window.location.reload();
-                            // $('#item-'+data.slug).html('<td>Bar</td>');
-                            // var row = '<tr id="item-'+ data.slug + '">';
-                            //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset("' + data.thumbnail + '")}}" alt="" height="50px" width="50px">' + '</td>';
-                            //     row += '<td>' + data.name + '</td>';
-                            //     row += '<td>' + data.priority + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="catEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="catDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
-                            //     if($("#id").val()){
-                            //         $("#item-" + data.slug).replaceWith(row);
-                            //     }else{
-                            //         $("#cat-list").prepend(row);
-                            //     }
+                            var row = '<tr id="item-'+ data.id + '">';
+                            row += '<td>' + data.category_id + '</td>';
+                            row += '<td>' + data.name + '</td>';
+                            row += '<td>' + data.slug + '</td>';
+                            row += '<td>' + data.priority + '</td>';
+                            row += '<td>' + '<div class="action">' + '<button type="button" id="catEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="catDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                            $("#item-" + data.id).replaceWith(row);
 
                                 $("#catEditForm").trigger('reset');
                         }

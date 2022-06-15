@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SubSubCategoryController;
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\AjaxLoadController;
 use App\Http\Controllers\Auth\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*

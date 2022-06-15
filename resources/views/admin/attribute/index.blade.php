@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="row">
+        {{--atrtibute create form--}}
         <div class="col-lg-4">
             <div class="box">
                 <div class="box-header with-border">
@@ -24,6 +25,7 @@
                 </div>
             </div>
         </div>
+        {{--attribute list--}}
         <div class="col-lg-8">
             <div class="box">
                 <div class="box-header">
@@ -62,7 +64,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Edit Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -124,17 +126,16 @@
                             }
                         }
                         else {
-                            window.location.reload();
-                            // var row = '<tr id="item-'+ data.slug + '">';
-                            //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset('data.logo')}}" alt="" height="50px" width="50px">' + '</td>';
-                            //     row += '<td>' + data.name + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="brandEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="brandDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
-                            //     if($("#id").val()){
-                            //         $("#item-" + data.id).replaceWith(row);
-                            //     }else{
-                            //         $("#cat-list").prepend(row);
-                            //     }
+                            // window.location.reload();
+                            var row = '<tr id="item-'+ data.id + '">';
+                                 row += '<td>' + data.id + '</td>';
+                                 row += '<td>' + data.name + '</td>';
+                            row += '<td>' + '<div class="action">' + '<button type="button" id="attributeEdit" data-id="' + data.id +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="attributeDelete" data-id="' + data.id +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                                 if($("#id").val()){
+                                     $("#item-" + data.id).replaceWith(row);
+                                 }else{
+                                     $("#attribute-list").prepend(row);
+                                 }
 
                                 $("#attributeForm").trigger('reset');
                         }
@@ -153,8 +154,8 @@
                         confirmButtonColor: '#3c9a40',
                         cancelButtonColor: '#4c4c4c',
                         confirmButtonText: 'Yes, delete it!'
-                    }).then(function (stat) {
-                    
+                    }).then(function (stat) {if (stat.value != undefined && stat.value) {
+
                     $.ajax({
                         type:"POST",
                         url: "{{ route('attribute.destroy') }}",
@@ -164,10 +165,14 @@
                             $(this).attr('disabled', 'disabled');
                             $(this).html('<i class="fa fa-spinner fa-spin"></i>');
                         },
-                        success: function(res){                                                  
-                            $("#item-" + id).remove();                    
+                        success: function(res){
+                            $("#item-" + id).remove();
+                        },
+                        complete: function () {
+                            $(this).removeAttr('disabled');
                         }
                     });
+                }
                 });
             });
 
@@ -214,20 +219,13 @@
                             }
                         }
                         else {
-                            window.location.reload();
-                            // $('#item-'+data.slug).html('<td>Bar</td>');
-                            // var row = '<tr id="item-'+ data.slug + '">';
-                            //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset("' + data.logo + '")}}" alt="" height="50px" width="50px">' + '</td>';
-                            //     row += '<td>' + data.name + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="brandEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="brandDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
-                            //     if($("#id").val()){
-                            //         $("#item-" + data.slug).replaceWith(row);
-                            //     }else{
-                            //         $("#cat-list").prepend(row);
-                            //     }
+                            var row = '<tr id="item-'+ data.id + '">';
+                            row += '<td>' + data.id + '</td>';
+                            row += '<td>' + data.name + '</td>';
+                            row += '<td>' + '<div class="action">' + '<button type="button" id="attributeEdit" data-id="' + data.id +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="attributeDelete" data-id="' + data.id +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                            $("#item-" + data.id).replaceWith(row);
 
-                                $("#brandEditForm").trigger('reset');
+                            $("#brandEditForm").trigger('reset');
                         }
                     },
                 })
