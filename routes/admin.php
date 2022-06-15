@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SubSubCategoryController;
 use App\Http\Controllers\Admin\AttributeController;
@@ -81,6 +82,14 @@ Route::group([
         $router->post('/edit', [AttributeController::class, 'edit'])->name('attribute.edit');
         $router->post('/update', [AttributeController::class, 'update'])->name('attribute.update');
         $router->post('/destroy', [AttributeController::class, 'destroy'])->name('attribute.destroy');
+    });
+    Route::group(['prefix' => 'product'], function ($router) {
+        $router->get('/list', [ProductController::class, 'index'])->name('product.list');
+        $router->get('/create', [ProductController::class, 'create'])->name('product.create');
+        $router->post('/store', [ProductController::class, 'store'])->name('product.store');
+        $router->post('/edit', [ProductController::class, 'edit'])->name('product.edit');
+        $router->post('/update', [ProductController::class, 'update'])->name('product.update');
+        $router->post('/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     });
 
     Route::group(['prefix' => 'load'], function ($route) {

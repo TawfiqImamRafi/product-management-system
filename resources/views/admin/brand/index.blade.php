@@ -137,16 +137,17 @@
                         }
                         else {
                             window.location.reload();
-                            // var row = '<tr id="item-'+ data.slug + '">';
-                            //     row += '<td>' + data.id + '</td>';
-                            //     row += '<td>' + '<img src="{{asset('data.logo')}}" alt="" height="50px" width="50px">' + '</td>';
-                            //     row += '<td>' + data.name + '</td>';
-                            // row += '<td>' + '<div class="action">' + '<button type="button" id="brandEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="brandDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
-                            //     if($("#id").val()){
-                            //         $("#item-" + data.id).replaceWith(row);
-                            //     }else{
-                            //         $("#cat-list").prepend(row);
-                            //     }
+                            // console.log(JSON.stringify(data.logo))
+                            //  var row = '<tr id="item-'+ data.slug + '">';
+                            //      row += '<td>' + data.id + '</td>';
+                            //      row += '<td>' + '<img src="' + data.logo +'" alt="" height="50px" width="50px">' + '</td>';
+                            //      row += '<td>' + data.name + '</td>';
+                            //  row += '<td>' + '<div class="action">' + '<button type="button" id="brandEdit" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-warning">'+'<i class="bx bx-edit">'+'</i>'+'</button>' + '<button type="button" id="brandDelete" data-slug="' + data.slug +'" class="btn btn-sm btn-outline-danger">'+'<i class="bx bx-trash">'+'</i>'+'</button>' + '</div>' + '</td>';
+                            //      if($("#id").val()){
+                            //          $("#item-" + data.id).replaceWith(row);
+                            //      }else{
+                            //          $("#brand-list").prepend(row);
+                            //      }
 
                                 $("#brandForm").trigger('reset');
                         }

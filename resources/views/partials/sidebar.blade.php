@@ -39,6 +39,16 @@
                     <span>Attribute</span>
                 </a>
             </li>
+            <li class="treeview">
+                <a href="javascript:void(0)">
+                    <i class="bx bx-cog"></i>
+                    <span>Product</span>
+                    <i class='bx bx-chevron-down'></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('product.create') }}">Create</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>
