@@ -47,6 +47,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('product.create') }}">Create</a></li>
+                    <li><a href="{{ route('product.list') }}">List</a></li>
+                    <li><a href="{{ route('bulk.create') }}">Bulk Product</a></li>
                 </ul>
             </li>
         </ul>

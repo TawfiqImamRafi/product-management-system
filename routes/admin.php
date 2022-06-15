@@ -90,6 +90,8 @@ Route::group([
         $router->get('/edit/{slug}', [ProductController::class, 'edit'])->name('product.edit');
         $router->put('/update/{slug}', [ProductController::class, 'update'])->name('product.update');
         $router->delete('/destroy/{slug}', [ProductController::class, 'destroy'])->name('product.destroy');
+        $router->get('bulk/create', [ProductController::class, 'bulkCreate'])->name('bulk.create');
+        $router->post('bulk/store', [ProductController::class, 'bulkUpload'])->name('bulk.store');
     });
 
     Route::group(['prefix' => 'load'], function ($route) {
