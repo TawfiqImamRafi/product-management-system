@@ -282,7 +282,7 @@
                             cat_id: cat_id
                         },
                         success: function(data) {
-                            $('#sub_category_id').empty();
+                            $('#subcategory').empty();
                             $('#subcategory').append('<option>--select--</option>');
                             $.each(data.data, function(index, subcategory) {
                                 $('#subcategory').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');

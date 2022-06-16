@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
+{{--    {{ dd($product) }}--}}
     <div class="box">
         <div class="box-header with-border">
             <div class="box-title">
@@ -13,7 +14,7 @@
         {!! Form::open(['route' => ['product.update', $product->slug], 'method' => 'PUT']) !!}
         <div class="box-body">
             <input type="hidden" name="admin_id" value="{{ Auth::guard('admin')->user()->id }}">
-            
+
             <div class="form-group">
                 <label for="">Name<span> *</span></label>
                 <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control" value="{{ $product->name}}">
@@ -49,7 +50,7 @@
                     </div>
                 </div>
 
-                
+
             </div>
 
             <div class="row">
@@ -77,6 +78,14 @@
                 </select>
             </div>
             <div id="attribute-section">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control attr-name" value="{{ $product->attribute->first()->attribute->name }}" readonly>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" name="attribute_tag[]" class="form-control tags" value="{{ $product->attribute->first()->value }}">
+                    </div>
+                </div>
             </div>
 
             <h4 class="mb-3 mt-4">Price & Stock</h4>
@@ -139,7 +148,7 @@
                             </tr>
                             @endforeach
                         @endif
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -175,14 +184,26 @@
         {!! Form::close() !!}
     </div>
     <template id="attributeTemplate">
-            <div class="form-group row">
-                <div class="col-lg-4">
-                    <input type="text" class="form-control attr-name" value="" readonly>
-                </div>
-                <div class="col-lg-8">
-                    <input type="text" name="attribute_tag[]" class="form-control tags" data-attribute>
-                </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <input type="text" class="form-control attr-name" value="" readonly>
             </div>
+            <div class="col-lg-8">
+                <input type="text" name="attribute_tag[]" class="form-control tags" data-attribute>
+            </div>
+        </div>
+        <script>
+            $('.tags').tagsInput({
+                'width': '100%',
+                'height': '100%',
+                'interactive': true,
+                'defaultText': 'Add More',
+                'removeWithBackspace': true,
+                'minChars': 0,
+                'maxChars': 20,
+                'placeholderColor': '#666666'
+            });
+        </script>
     </template>
     <template id="variantTemplate">
         <tr>
@@ -212,7 +233,7 @@
 
                 $('.tags').tagsInput({
                 'width': '100%',
-                'height': '75%',
+                'height': '100%',
                 'interactive': true,
                 'defaultText': 'Add More',
                 'removeWithBackspace': true,
@@ -223,6 +244,7 @@
 
                 $('.attribute-select2').select2({
                     placeholder: "Select Attribute",
+                    maximumSelectionLength: 1,
                     allowClear: true
                 });
 
@@ -254,19 +276,11 @@
                     }
 
                 });
-                $(document).ready(function() {
-                    $(window).keydown(function(event){
-                        if(event.keyCode == 13) {
-                        event.preventDefault();
-                        return false;
-                        }
-                    });
-                    });
 
 
                 $(document).on('keyup', '.tags', function () {
-                    var variation_name = $('.tags').val();
-                    // console.log(variation_names);
+                    var variation_name = $('input[name="attribute_tag[]"]').val();
+                    let variations = variation_name.split(',')
                     const attr_ids = $('#attribute_id').val();
                     let unit_price = $('.unit-price').val();
                     let servics = [];
@@ -283,13 +297,15 @@
                     if (servics && servics.length > 0) {
                         $('#variant-section').html('');
                         for(const varient of servics) {
-                            const var2 = document.importNode(variantTemplate.content, true)
-                            var2.querySelector('.variation_name').setAttribute('value', variation_name)
-                            var2.querySelector('.variation_price').setAttribute('value', unit_price)
-                            var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+variation_name)
-                            var2.querySelector('.variation_quantity').setAttribute('value', 1)
-                            variantElement.append(var2)
-                            total_quantity = total_quantity+1
+                            for(const vari of variations) {
+                                const var2 = document.importNode(variantTemplate.content, true)
+                                var2.querySelector('.variation_name').setAttribute('value', vari)
+                                var2.querySelector('.variation_price').setAttribute('value', unit_price)
+                                var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+vari)
+                                var2.querySelector('.variation_quantity').setAttribute('value', 1)
+                                variantElement.append(var2)
+                                total_quantity = total_quantity+1
+                            }
                         }
                     } else {
                         $('#variant-section').html('');
@@ -300,7 +316,8 @@
 
 
                 $(document).on('keyup', '.unit-price', function () {
-                    var variation_name = $('.tags').val();
+                    var variation_name = $('input[name="attribute_tag[]"]').val();
+                    let variations = variation_name.split(',')
                     const attr_ids = $('#attribute_id').val();
                     let unit_price = $(this).val();
                     let servics = [];
@@ -316,12 +333,14 @@
                     if (servics && servics.length > 0) {
                         $('#variant-section').html('');
                         for(const varient of servics) {
-                            const var2 = document.importNode(variantTemplate.content, true)
-                            var2.querySelector('.variation_name').setAttribute('value', variation_name)
-                            var2.querySelector('.variation_price').setAttribute('value', unit_price)
-                            var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+variation_name)
-                            var2.querySelector('.variation_quantity').setAttribute('value', 1)
-                            variantElement.append(var2)
+                            for(const vari of variations) {
+                                const var2 = document.importNode(variantTemplate.content, true)
+                                var2.querySelector('.variation_name').setAttribute('value', vari)
+                                var2.querySelector('.variation_price').setAttribute('value', unit_price)
+                                var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+vari)
+                                var2.querySelector('.variation_quantity').setAttribute('value', 1)
+                                variantElement.append(var2)
+                            }
                         }
                     } else {
                         $('#variant-section').html('');

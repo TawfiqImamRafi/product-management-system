@@ -13,7 +13,7 @@
         {!! Form::open(['route' => 'product.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
         <div class="box-body">
             <input type="hidden" name="admin_id" value="{{ Auth::guard('admin')->user()->id }}">
-            
+
             <div class="form-group">
                 <label for="">Name<span> *</span></label>
                 <input type="text" name="name" placeholder="Enter Name" id="cat_name" class="form-control">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
 
-                
+
             </div>
 
             <div class="row">
@@ -75,6 +75,7 @@
                 </select>
             </div>
             <div id="attribute-section">
+
             </div>
 
             <h4 class="mb-3 mt-4">Price & Stock</h4>
@@ -127,7 +128,7 @@
                     </tr>
                     </thead>
                     <tbody id="variant-section">
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -171,13 +172,25 @@
                     <input type="text" name="attribute_tag[]" class="form-control tags" data-attribute>
                 </div>
             </div>
+            <script>
+                $('.tags').tagsInput({
+                    'width': '100%',
+                    'height': '100%',
+                    'interactive': true,
+                    'defaultText': 'Add More',
+                    'removeWithBackspace': true,
+                    'minChars': 0,
+                    'maxChars': 20,
+                    'placeholderColor': '#666666'
+                });
+            </script>
     </template>
     <template id="variantTemplate">
         <tr>
             <td><input type="text" name="variation_name[]" class="form-control variation_name" readonly></td>
             <td><input type="number" name="variation_price[]" class="form-control variation_price"></td>
             <td><input type="text" name="variation_sku[]" class="form-control variation_sku" readonly></td>
-            <td><input type="number" name="variation_quantity[]" class="form-control variation_quantity"></td>
+            <td><input type="number" name="variation_quantity[]" class="form-control variation_quantity" readonly></td>
         </tr>
     </template>
 @endsection
@@ -199,18 +212,19 @@
 
 
                 $('.tags').tagsInput({
-                'width': '100%',
-                'height': '75%',
-                'interactive': true,
-                'defaultText': 'Add More',
-                'removeWithBackspace': true,
-                'minChars': 0,
-                'maxChars': 20,
-                'placeholderColor': '#666666'
-            });
+                    'width': '100%',
+                    'height': '75%',
+                    'interactive': true,
+                    'defaultText': 'Add More',
+                    'removeWithBackspace': true,
+                    'minChars': 0,
+                    'maxChars': 20,
+                    'placeholderColor': '#666666'
+                });
 
                 $('.attribute-select2').select2({
                     placeholder: "Select Attribute",
+                    maximumSelectionLength: 1,
                     allowClear: true
                 });
 
@@ -242,19 +256,11 @@
                     }
 
                 });
-                $(document).ready(function() {
-                    $(window).keydown(function(event){
-                        if(event.keyCode == 13) {
-                        event.preventDefault();
-                        return false;
-                        }
-                    });
-                    });
 
 
-                $(document).on('keyup', '.tags', function () {
-                    var variation_name = $('.tags').val();
-                    // console.log(variation_names);
+                $(document).on('keyup', '.tagsinput input', function () {
+                    var variation_name = $('input[name="attribute_tag[]"]').val();
+                    let variations = variation_name.split(',')
                     const attr_ids = $('#attribute_id').val();
                     let unit_price = $('.unit-price').val();
                     let servics = [];
@@ -271,13 +277,15 @@
                     if (servics && servics.length > 0) {
                         $('#variant-section').html('');
                         for(const varient of servics) {
-                            const var2 = document.importNode(variantTemplate.content, true)
-                            var2.querySelector('.variation_name').setAttribute('value', variation_name)
-                            var2.querySelector('.variation_price').setAttribute('value', unit_price)
-                            var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+variation_name)
-                            var2.querySelector('.variation_quantity').setAttribute('value', 1)
-                            variantElement.append(var2)
-                            total_quantity = total_quantity+1
+                            for(const vari of variations) {
+                                const var2 = document.importNode(variantTemplate.content, true)
+                                var2.querySelector('.variation_name').setAttribute('value', vari)
+                                var2.querySelector('.variation_price').setAttribute('value', unit_price)
+                                var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+vari)
+                                var2.querySelector('.variation_quantity').setAttribute('value', 1)
+                                variantElement.append(var2)
+                                total_quantity = total_quantity+1
+                            }
                         }
                     } else {
                         $('#variant-section').html('');
@@ -288,7 +296,8 @@
 
 
                 $(document).on('keyup', '.unit-price', function () {
-                    var variation_name = $('.tags').val();
+                    var variation_name = $('input[name="attribute_tag[]"]').val();
+                    let variations = variation_name.split(',')
                     const attr_ids = $('#attribute_id').val();
                     let unit_price = $(this).val();
                     let servics = [];
@@ -304,12 +313,14 @@
                     if (servics && servics.length > 0) {
                         $('#variant-section').html('');
                         for(const varient of servics) {
-                            const var2 = document.importNode(variantTemplate.content, true)
-                            var2.querySelector('.variation_name').setAttribute('value', variation_name)
-                            var2.querySelector('.variation_price').setAttribute('value', unit_price)
-                            var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+variation_name)
-                            var2.querySelector('.variation_quantity').setAttribute('value', 1)
-                            variantElement.append(var2)
+                            for(const vari of variations) {
+                                const var2 = document.importNode(variantTemplate.content, true)
+                                var2.querySelector('.variation_name').setAttribute('value', vari)
+                                var2.querySelector('.variation_price').setAttribute('value', unit_price)
+                                var2.querySelector('.variation_sku').setAttribute('value', varient.name+'-'+vari)
+                                var2.querySelector('.variation_quantity').setAttribute('value', 1)
+                                variantElement.append(var2)
+                            }
                         }
                     } else {
                         $('#variant-section').html('');

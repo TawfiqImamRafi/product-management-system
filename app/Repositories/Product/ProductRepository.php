@@ -54,8 +54,8 @@ class ProductRepository implements ProductRepositoryInterface
                 if($request->get('attribute_id')){
                     foreach($request->get('attribute_id') as $key=>$attribute){
                         $product_attribute = new ProductAttribute();
-                        $product_attribute->product_id = $product->id; 
-                        $product_attribute->attribute_id = $attribute; 
+                        $product_attribute->product_id = $product->id;
+                        $product_attribute->attribute_id = $attribute;
                         $product_attribute->value = $request->get('attribute_tag')[$key];
                         $product_attribute->save();
                     }
@@ -63,8 +63,8 @@ class ProductRepository implements ProductRepositoryInterface
                 if($request->get('variation_name')){
                     foreach($request->get('variation_name') as $key=>$variation){
                         $product_variation = new ProductVarient();
-                        $product_variation->product_id = $product->id; 
-                        $product_variation->variant = $variation; 
+                        $product_variation->product_id = $product->id;
+                        $product_variation->variant = $variation;
                         $product_variation->variant_price = $request->get('variation_price')[$key];
                         $product_variation->sku = $request->get('variation_sku')[$key];
                         $product_variation->quantity = $request->get('variation_quantity')[$key];
@@ -82,7 +82,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getById($slug)
     {
-        $product = Product::with('attribute','price','variant')->where("slug",$slug)->first();
+        $product = Product::with('attribute','attribute.attribute','price','variant')->where("slug",$slug)->first();
 
         if ($product) {
             return $product;
@@ -134,8 +134,8 @@ class ProductRepository implements ProductRepositoryInterface
                     }
                     foreach($request->get('attribute_id') as $key=>$attribute){
                         $product_attribute = new ProductAttribute();
-                        $product_attribute->product_id = $product->id; 
-                        $product_attribute->attribute_id = $attribute; 
+                        $product_attribute->product_id = $product->id;
+                        $product_attribute->attribute_id = $attribute;
                         $product_attribute->value = $request->get('attribute_tag')[$key];
                         $product_attribute->save();
                     }
@@ -149,8 +149,8 @@ class ProductRepository implements ProductRepositoryInterface
                     }
                     foreach($request->get('variation_name') as $key=>$variation){
                         $product_variation = new ProductVarient();
-                        $product_variation->product_id = $product->id; 
-                        $product_variation->variant = $variation; 
+                        $product_variation->product_id = $product->id;
+                        $product_variation->variant = $variation;
                         $product_variation->variant_price = $request->get('variation_price')[$key];
                         $product_variation->sku = $request->get('variation_sku')[$key];
                         $product_variation->quantity = $request->get('variation_quantity')[$key];

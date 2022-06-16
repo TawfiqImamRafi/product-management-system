@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Page title -->
-    <title>@yield('page-title', '6amtech')</title>
+    <title>@yield('page-title', 'product-management')</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/images/elearning-logo.svg') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/select2/select2.min.css') }}">

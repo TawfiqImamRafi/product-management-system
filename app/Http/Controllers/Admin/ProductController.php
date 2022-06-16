@@ -301,5 +301,5 @@ class ProductController extends Controller
             ]);
         }
     }
-    
+
 }

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProductAttribute extends Model
 {
     use HasFactory;
+
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class, 'attribute_id', 'id');
+    }
 }
