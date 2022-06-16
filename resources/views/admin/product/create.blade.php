@@ -136,7 +136,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label for="">Total Quantity</label>
-                        <input type="number" name="quantity" placeholder="0.00" class="form-control total-quantity">
+                        <input type="number" name="quantity" placeholder="0.00" class="form-control total-quantity" readonly>
                     </div>
                 </div>
                 <div class="col-lg-6">
