@@ -12,6 +12,7 @@ use App\Repositories\Attribute\AttributeRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -37,6 +38,16 @@ class ProductController extends Controller
         $data = [
             'page_title' => 'Product list',
             'products' => $this->product->products(),
+        ];
+
+        return view('admin.product.index')->with(array_merge($this->data, $data));
+    }
+
+    public function search()
+    {
+        $data = [
+            'page_title' => 'Product list',
+            'products' => $this->product->searchProducts(request()->query('unit_price')),
         ];
 
         return view('admin.product.index')->with(array_merge($this->data, $data));

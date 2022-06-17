@@ -92,6 +92,8 @@ Route::group([
         $router->delete('/destroy/{slug}', [ProductController::class, 'destroy'])->name('product.destroy');
         $router->get('bulk/create', [ProductController::class, 'bulkCreate'])->name('bulk.create');
         $router->post('bulk/store', [ProductController::class, 'bulkUpload'])->name('bulk.store');
+        $router->get('search', [ProductController::class, 'search'])->name('product.search');
+
     });
 
     Route::group(['prefix' => 'load'], function ($route) {

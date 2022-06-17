@@ -7,6 +7,12 @@
                 <h4>Product List</h4>
             </div>
             <div class="box-action">
+                <form action="{{ route('product.search')}}" method="GET" class="d-flex gap-2">
+                    <input type="number" name="unit_price" placeholder="Enter Price" class="form-control">
+                    <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                </form>
+            </div>
+            <div class="box-action">
                 <a href="{{ route('product.create') }}" class="btn btn-sm btn-secondary">Create New</a>
             </div>
         </div>

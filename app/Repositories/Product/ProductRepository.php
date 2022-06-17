@@ -22,6 +22,19 @@ class ProductRepository implements ProductRepositoryInterface
         return false;
     }
 
+    public function searchProducts($search_price)
+    {
+        $products=Product::with('attribute','price','variant')->whereHas('price', function($q) use($search_price){
+            $q->where('unit_price', $search_price);
+        })->get();
+
+        if ($products->isNotEmpty()) {
+            return $products;
+        }
+
+        return false;
+    }
+
     public function store($request)
     {
         // dd($request->all());
