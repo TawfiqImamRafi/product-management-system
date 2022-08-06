@@ -82,4 +82,6 @@ class AuthController extends Controller
     {
         return $this->auth->logout();
     }
+
+    
 }
